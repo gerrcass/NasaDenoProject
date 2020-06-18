@@ -3,9 +3,21 @@ import { BufReader } from "https://deno.land/std/io/bufio.ts";
 import { parse } from "https://deno.land/std/encoding/csv.ts";
 import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
 
+/*
+Deno is using ES6 for ECMAScript module which are cached. The first time the planets.ts module is imported in api.ts file, 
+it'll create the Array<Planet> objtect, and on subsequent imports of this module, it'll always use the same objtect.
+*/
+
+/*
 interface Planet {
   [key: string]: string;
 }
+Since TypeScript 2.1 there's a shorthand to do this:
+type Planet = Record<string, string>;
+*/
+type Planet = Record<string, string>;
+
+let planets: Array<Planet>;
 
 async function loadPlanetsData() {
   const path = join("data", "kepler_exoplanets_nasa_archive.csv");
@@ -40,8 +52,9 @@ async function loadPlanetsData() {
   });
 }
 
-const planets = await loadPlanetsData();
-for (const planet of planets) {
-  console.log(planet);
+planets = await loadPlanetsData();
+console.log(`${planets.length} habitable planets found! 🎉`);
+
+export function getAllPlanets() {
+  return planets;
 }
-console.log(`Count: ${planets.length} habitable planets found! 🎉`);
