@@ -2,6 +2,7 @@ import { join } from "https://deno.land/std/path/mod.ts";
 import { BufReader } from "https://deno.land/std/io/bufio.ts";
 import { parse } from "https://deno.land/std/encoding/csv.ts";
 import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
+import * as log from "https://deno.land/std/log/mod.ts";
 
 /*
 Deno is using ES6 for ECMAScript module which are cached. The first time the planets.ts module is imported in api.ts file, 
@@ -60,7 +61,7 @@ async function loadPlanetsData() {
 }
 
 planets = await loadPlanetsData();
-console.log(`${planets.length} habitable planets found! 🎉`);
+log.info(`${planets.length} habitable planets found! 🎉`);
 
 export function getAllPlanets() {
   return planets;
