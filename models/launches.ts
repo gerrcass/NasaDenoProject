@@ -15,7 +15,7 @@ await log.setup({
 });
 
 interface Launch {
-  flightNumber: Number;
+  flightNumber: number;
   mission: string;
   rocket: string;
   customers: Array<string>;
@@ -71,4 +71,14 @@ export function getOne(id: number) {
     return launches.get(id);
   }
   return null;
+}
+
+export function addOne(data: Launch) {
+  launches.set(
+    data.flightNumber,
+    Object.assign(data, {
+      upcoming: true,
+      customers: ["NASA", "ZTM"],
+    }),
+  );
 }
