@@ -14,6 +14,7 @@ router.get("/", (ctx) => {
 });
 
 router.get("/planets", (ctx) => {
+  //ctx.throw(501, "Sorry planets aren't available!"); //Oak only show general message when errors in the 500 range
   ctx.response.body = planets.getAllPlanets();
 });
 

@@ -16,6 +16,20 @@ await log.setup({
     },
   },
 });
+// The Oak () application extends the EventTarget interface, which works much like the browser that listens for events...
+app.addEventListener("error", (event) => {
+  log.error(event.error);
+});
+
+// to catch error from here
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.response.body = "Internal server error...";
+    throw err;
+  }
+});
 
 app.use(async (ctx, next) => {
   await next();
