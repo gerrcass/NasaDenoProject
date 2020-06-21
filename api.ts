@@ -1,5 +1,6 @@
 import { Router, Application } from "https://deno.land/x/oak@v5.0.0/mod.ts";
 import * as planets from "./models/planets.ts";
+import * as launches from "./models/launches.ts";
 
 const router = new Router();
 
@@ -16,6 +17,19 @@ router.get("/", (ctx) => {
 router.get("/planets", (ctx) => {
   //ctx.throw(501, "Sorry planets aren't available!"); //Oak only show general message when errors in the 500 range
   ctx.response.body = planets.getAllPlanets();
+});
+router.get("/launches", (ctx) => {
+  ctx.response.body = launches.getAll();
+});
+router.get("/launches/:id", (ctx) => {
+  if (ctx.params?.id) { // (ctx.params?.id) === (ctx.params && ctx.params.id)
+    const launchesList = launches.getOne(Number(ctx.params.id));
+    if (launchesList) {
+      ctx.response.body = launchesList;
+    } else {
+      ctx.throw(400, "Launch with that ID doesn't exist!");
+    }
+  }
 });
 
 export default router;
