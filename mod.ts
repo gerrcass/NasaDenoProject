@@ -54,6 +54,7 @@ app.use(async (ctx) => {
     "/javascripts/script.js",
     "/stylesheets/style.css",
     "/images/favicon.png",
+    "/videos/space.mp4",
   ];
   if (fileWhitelist.includes(filePath)) {
     await send(ctx, filePath, {
@@ -62,7 +63,9 @@ app.use(async (ctx) => {
   }
 });
 
-log.info(`Starting server on port ${PORT}...`);
-await app.listen({
-  port: PORT,
-});
+if (import.meta.main) {
+  log.info(`Starting server on port ${PORT}...`);
+  await app.listen({
+    port: PORT,
+  });
+}
